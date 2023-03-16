@@ -1,23 +1,19 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-}
-
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
+body{
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  align-content: center;
+  justify-content: center;
+  background-color: #242424;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
 }
+
 
 h1 {
   font-size: 30px;
@@ -64,7 +60,7 @@ Board component
 
 .square {
   width: 90px;
-  height: 100px;
+  height: 90px;
   border: 2px solid #eee;
   border-radius: 5px;
   display: grid;
@@ -85,12 +81,14 @@ span{
   color: green;
 }
 
-.winner{
-  display: flex;
-  justify-content: center;
-}
-
 .score{
   display: flex;
+  justify-content: center;
   gap: 13px;
+}
+
+.score__points{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
