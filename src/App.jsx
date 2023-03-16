@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import './App.css'
-import { GameStarted } from './components/GameStarted'
 import { TURNS, SCORE } from './components/constant'
 import { Board } from './components/Board'
 import { getWinner } from './utils/getwinner'
 import { motion } from 'framer-motion'
 import { updateScore } from './utils/updateScore'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 // import confetti from 'canvas-confetti'
 function App () {
-  const [gameStarted, setGameStarted] = useState(false)
   const [board, setBoard] = useState(Array(9).fill(null))
   const [turn, setTurn] = useState(TURNS.X)
   const [winner, setWinner] = useState(null)
@@ -28,12 +29,18 @@ function App () {
 
     const newWinner = getWinner(newBoard)
 
+    const messageWinner = `${newWinner ? 'Player' + newWinner + 'wins' : 'TIE'}!`
+
+    const notify = () => toast(messageWinner, { autoClose: 900 })
+
     if (newWinner) {
       setWinner(newWinner)
+      notify()
       restartGame()
     } else if ((newWinner === false)) {
       setWinner(false)
       restartGame()
+      notify()
     }
 
     const saveScore = updateScore(newWinner, score)
@@ -52,39 +59,32 @@ function App () {
       setBoard(Array(9).fill(null))
       setTurn(TURNS.X)
       setWinner(null)
-    }, 1000)
+    }, 400)
   }
 
   function RestartScore () {
     setScore(SCORE)
+    restartGame()
   }
+
   return (
     <main>
       <section>
-        {!gameStarted
-          ? (
+        <ToastContainer />
+        <motion.div
+          animate={{ y: 20 }}
+          initial={{ opacity: 7 }}
+        >
 
-            <GameStarted setGameStarted={setGameStarted} />
+          <Board
+            board={board}
+            updateBoard={updateBoard}
+            currentTurn={turn}
+            score={score}
+            RestartScore={RestartScore}
+          />
 
-            )
-          : (
-
-            <motion.div
-              animate={{ y: 20 }}
-              initial={{ opacity: 7 }}
-            >
-
-              <Board
-                board={board}
-                updateBoard={updateBoard}
-                currentTurn={turn}
-                score={score}
-                RestartScore={RestartScore}
-              />
-
-            </motion.div>
-
-            )}
+        </motion.div>
       </section>
     </main>
   )
